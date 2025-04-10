@@ -17,6 +17,7 @@ Usage:
   detectEVE [options] -A acc,acc
   detectEVE [options] [--snake args] [(-a acc.csv | -A acc,acc)] [<in.fa> ...]
   detectEVE --setup-databases [--snake args]
+  detectEVE --yaml
 
 Options:
   -a --acc-csv acc.csv   Comma-separated table with NCBI WGS genome accessions in
@@ -27,15 +28,15 @@ Options:
   -A --acc-list acc,acc  Comma-separated string of NCBI genome accessions.
                          Otherwise same as `--acc-csv`.
   -o --out out           Output directory [default: detectEVE-%Y%m%d-%H%M%S]
-                         
+
   --setup-databases      Download and prepare reference databases. This can take a
                          few hours. Configure paths in config.yaml. See documentation
                          for alternative database setup options.
-                         
+
   -s --snake args        Overwrite/add arguments to for snakemake. Need to be enclosed
                          in quotes, e.g. `-s '--cores 1 --verbose --notemp'`.
                          [default: --cores all --keep-going]
-                         
+
   -h --help              Show this screen.
   --version              Show version.
 
@@ -70,6 +71,10 @@ if opt["--setup-databases"]:
     subprocess.run(cmd, shell=True, cwd=wf_dir)
     sys.exit()
 
+if opt["--yaml"]:
+    cmd1='vim' + f' {wf_dir}/config.yaml'
+    subprocess.run(cmd1, shell=True, cwd=wf_dir)
+    sys.exit()
 
 # prep working dir and input
 genome_dir=os.path.join(out, "genomes/")
@@ -79,7 +84,7 @@ if opt["--acc-csv"]:
     csv=os.path.abspath(opt["--acc-csv"])
     if not csv == f'{out}/accessions.csv':
         os.system(f'cp {csv} {out}/accessions.csv')
-        
+
 elif opt["--acc-list"]:
     with open(f'{out}/accessions.csv', "w") as f:
         f.write("#accession\n")
@@ -91,7 +96,7 @@ if opt["<in.fa>"]:
         if not os.path.exists(fa_src):
             print(f"{fa_src} does not exist")
             sys.exit()
-            
+
         fa_dst=os.path.join(genome_dir, os.path.basename(fa)) # ensure .fna suffix
         fa_dst=os.path.splitext(fa_dst)[0]+'.fna'
         if not fa_src == fa_dst:
@@ -120,7 +125,7 @@ for of in out_files:
         contents = f.read()
         n_high = n_high + sum(1 for match in re.finditer(r"\thigh\t", contents))
         n_low = n_low + sum(1 for match in re.finditer(r"\tlow\t", contents))
-    
+
 print("\ndetectEVE run complete:")
 if n_bad_accs > 0:
     print(f'{n_bad_accs} accessions failed to download, see logs for details [{genome_dir}]')

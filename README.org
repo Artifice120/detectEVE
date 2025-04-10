@@ -7,7 +7,7 @@ detectEVE is an open-source Snakemake tool designed for the fast and precise det
 
 #+begin_src sh
 # download workflow
-git clone https://github.com/thackl/detectEVE
+git clone https://github.com/Artifice120/detectEVE
 cd detectEVE
 
 # install dependencies via conda or mamba (https://github.com/conda-forge/miniforge)

@@ -13,23 +13,33 @@ cd detectEVE
 # install dependencies via conda or mamba (https://github.com/conda-forge/miniforge)
 mamba create -n detectEVE
 mamba activate detectEVE
-mamba env update --file workflow/envs/env.yaml
+mamba install -f workflow/envs/env.yaml
+
+# Add git repo to bin
+
+cp -r databases/ path/to/your/detectEVE/bin
+
+cp -r workflow/ path/to/your/detectEVE/bin
+
+cp detectEVE  path/to/your/detectEVE/bin
+
+cp config.yaml path/to/your/detectEVE/bin
 
 # run detectEVE
-./detectEVE -h                       # show help
-./detectEVE [options] [<in.fa> ...]  # analyze local fasta files
-./detectEVE [options] -a acc.csv     # download & analyze NCBI accession table
-./detectEVE [options] -A acc,acc     # download & analyze NCBI accession list
+detectEVE -h                       # show help
+detectEVE [options] [<in.fa> ...]  # analyze local fasta files
+detectEVE [options] -a acc.csv     # download & analyze NCBI accession table
+detectEVE [options] -A acc,acc     # download & analyze NCBI accession list
 
 # or combine local fasta files and remote accessions
-./detectEVE [options] [(-a acc.csv | -A acc,acc)] [<in.fa> ...]
+detectEVE [options] [(-a acc.csv | -A acc,acc)] [<in.fa> ...]
 
 # download and prep databases
-./detectEVE --setup-databases [--snake ARGS]
+detectEVE --setup-databases [--snake ARGS]
 
 # run example data
 cd examples
-../detectEVE *.fna
+detectEVE *.fna
 #+end_src
 
 See [[https://www.ncbi.nlm.nih.gov/Traces/wgs/][NCBI SRA WGS]] for downloadable accessions. 

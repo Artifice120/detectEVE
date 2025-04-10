@@ -15,14 +15,15 @@ mamba create -n detectEVE
 mamba activate detectEVE
 mamba install -f workflow/envs/env.yaml
 
+# check mamba environment bin location
+
+which taxonkit | sed 's/taxonkit//g'
+
 # Add git repo to bin
 
 cp -r databases/ path/to/your/detectEVE/bin
-
 cp -r workflow/ path/to/your/detectEVE/bin
-
 cp detectEVE  path/to/your/detectEVE/bin
-
 cp config.yaml path/to/your/detectEVE/bin
 
 # run detectEVE

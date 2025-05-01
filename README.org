@@ -39,6 +39,7 @@ detectEVE [options] [(-a acc.csv | -A acc,acc)] [<in.fa> ...]
 detectEVE --setup-databases [--snake ARGS]
 
 # edit config.yaml file
+# opens file with vim ( :q! to exit )
 detectEVE --yaml
 
 # run example data

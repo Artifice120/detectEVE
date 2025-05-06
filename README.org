@@ -6,25 +6,21 @@ detectEVE is an open-source Snakemake tool designed for the fast and precise det
 ** Quickstart guide
 
 #+begin_src sh
-# download workflow
+
+# Add git repo to bin ( Assuming mamba is aready installed )
 git clone https://github.com/Artifice120/detectEVE
 cd detectEVE
-
-# install dependencies via conda or mamba (https://github.com/conda-forge/miniforge)
 mamba create -n detectEVE
 mamba activate detectEVE
 mamba install -f workflow/envs/env.yaml
-
-# check mamba environment bin location
-
-which taxonkit | sed 's/taxonkit//g'
-
-# Add git repo to bin
-
-cp -r databases/ path/to/your/detectEVE/bin
-cp -r workflow/ path/to/your/detectEVE/bin
-cp detectEVE  path/to/your/detectEVE/bin
-cp config.yaml path/to/your/detectEVE/bin
+cd ../../../
+rm -rf detectEVE
+cd $( which taxonkit | awk -F '/bin/taxonkit' '{print $1}' )
+git clone https://github.com/Artifice120/detectEVE
+cp -r detectEVE/databases/ bin/
+cp -r detectEVE/workflow/ bin/
+cp detectEVE/detectEVE  bin/
+cp detectEVE/config.yaml bin/
 
 # run detectEVE
 detectEVE -h                       # show help
